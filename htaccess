@@ -1,0 +1,93 @@
+# BEGIN LSCACHE
+# END LSCACHE
+# BEGIN NON_LSCACHE
+# END NON_LSCACHE
+### Rewrite Rules Added by CyberPanel Rewrite Rule Generator
+
+RewriteEngine On
+RewriteCond %{HTTPS}  !=on
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+
+### End CyberPanel Generated Rules.
+
+cat: /home/security-ninja.baiyuan.blog/public_html/.htaccess: No such file or directory
+
+# BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+
+# BEGIN LiteSpeed
+# 在含有 BEGIN LiteSpeed 及 END LiteSpeed 標記的這兩行
+# 應有 WordPress 器修對行詞容變，
+# 遭到寫。
+<IfModule Litespeed>
+SetEnv noabort 1
+</IfModule>
+# END LiteSpeed
+
+#BEGIN WP Security Ninja - Block access to xmlrpc.php
+<Files xmlrpc.php>
+Order Deny,Allow
+Deny from all
+</Files>
+#END WP Security Ninja - Block access to xmlrpc.php
+
+#BEGIN WP Security Ninja - Block Username enumeration
+RewriteCond %{QUERY_STRING} ^author=([0-9]*)
+RewriteRule .* /? [L,R=302]
+#END WP Security Ninja - Block Username enumeration
+
+#BEGIN WP Security Ninja - Prevent code in unexpected files
+<IfModule mod_headers.c>
+Header set X-Content-Type-Options nosniff
+</IfModule>
+#END WP Security Ninja - Prevent code in unexpected files
+
+#BEGIN WP Security Ninja - Prevent page-framing and click-jacking
+<IfModule mod_headers.c>
+Header always append X-Frame-Options SAMEORIGIN
+</IfModule>
+#END WP Security Ninja - Prevent page-framing and click-jacking
+
+#BEGIN WP Security Ninja - Prevent cross-site-scripting
+<IfModule mod_headers.c>
+Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+#END WP Security Ninja - Prevent cross-site-scripting
+
+#BEGIN WP Security Ninja - Forces only HTTPS
+<IfModule mod_headers.c>
+Header set Strict-Transport-Security "max-age=31536000;"
+</IfModule>
+#END WP Security Ninja - Forces only HTTPS
+
+#BEGIN WP Security Ninja - Set Referrer-Policy
+<IfModule mod_headers.c>
+Header set Referrer-Policy "same-origin"
+</IfModule>
+#END WP Security Ninja - Set Referrer-Policy
+
+#BEGIN WP Security Ninja - Set Permissions-Policy
+<IfModule mod_headers.c>
+Header set Permissions-Policy "accelerometer 'none' ; ambient-light-sensor 'none' ; autoplay 'none' ; camera 'none' ; encrypted-media 'none' ; fullscreen 'none' ; geolocation 'none' ; gyroscope 'none' ; magnetometer 'none' ; microphone 'none' ; midi 'none' ; payment 'none' ; speaker 'none' ; sync-xhr 'none' ; usb 'none' ; notifications 'none' ; vibrate 'none' ; push 'none' ; vr 'none' "
+</IfModule>
+#END WP Security Ninja - Set Permissions-Policy
+
+<ifModule mod_headers.c>
+Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+Header set X-XSS-Protection "1; mode=block"
+Header set X-Content-Type-Options nosniff
+Header set X-Frame-Options DENY
+Header set Referrer-Policy: no-referrer-when-downgrade
+</ifModule>
